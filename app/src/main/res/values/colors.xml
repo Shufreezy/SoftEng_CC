@@ -3,7 +3,9 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="bloodred">#C71B1B</color>
+    <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
-    <color name="white">#ffffff</color>
-
+    <color name="mossgreen">#379F3E</color>
+    <color name="pureyellow">#FFFF00</color>
 </resources>

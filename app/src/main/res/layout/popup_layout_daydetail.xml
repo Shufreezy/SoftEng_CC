@@ -5,6 +5,4 @@
     android:layout_height="300dp"
     android:background="@color/white">
 
-
-
 </LinearLayout>
