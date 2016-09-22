@@ -18,12 +18,12 @@ import java.util.Date;
 import java.util.Locale;
 
 /**
- * Created by Princess Lykken on 9/21/2016.
+ * Created by Princess Lykken on 9/22/2016.
  */
-public class CalendarView extends Fragment {
+public class CalendarFragment extends Fragment {
     CustomCalendarView calendarView;
 
-    public CalendarView() {
+    public CalendarFragment() {
         // Required empty public constructor
     }
 
@@ -31,7 +31,7 @@ public class CalendarView extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_calendarview, container, false);
+        View view = inflater.inflate(R.layout.fragment_calendar, container, false);
         // Inflate the layout for this fragment
         //Initialize CustomCalendarView from layout
 
@@ -52,12 +52,8 @@ public class CalendarView extends Fragment {
         calendarView.setCalendarListener(new CalendarListener() {
             @Override
             public void onDateSelected(Date date) {
-
-                Intent intent = new Intent(CalendarView.this.getActivity(), PopUpLayoutDetail.class);
+                Intent intent = new Intent(CalendarFragment.this.getActivity(), PopUpLayoutDetail.class);
                 startActivity(intent);
-
-          //        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
-             //      Toast.makeText(CalendarView.this.getActivity(), df.format(date), Toast.LENGTH_SHORT).show();
             }
 
             @Override
