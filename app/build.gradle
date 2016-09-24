@@ -32,5 +32,5 @@ dependencies {
     compile 'com.android.support:design:24.2.1'
     compile 'com.github.npanigrahy:Custom-Calendar-View:v1.0'
     compile 'com.google.guava:guava:19.0'
-    compile 'com.github.PhilJay:MPAndroidChart:v3.0.0-beta1'
+    compile 'com.github.PhilJay:MPAndroidChart:v2.2.4'
 }
