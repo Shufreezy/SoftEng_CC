@@ -1,5 +1,6 @@
 package com.example.admin.cyclecalendar;
 
+//Model for ItemObject in SideBar Navigation
 public class ItemObject {
 
     private String name;

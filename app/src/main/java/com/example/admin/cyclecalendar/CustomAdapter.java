@@ -10,8 +10,8 @@ import android.widget.TextView;
 
 import java.util.List;
 
+//Custom Adapter for SideBar Navigation ListView
 public class CustomAdapter extends BaseAdapter {
-
     private LayoutInflater lInflater;
     private List<ItemObject> listStorage;
 

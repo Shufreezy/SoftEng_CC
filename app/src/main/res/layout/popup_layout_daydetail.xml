@@ -2,34 +2,45 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="300dp"
-    android:layout_height="350dp"
+    android:layout_height="wrap_content"
     android:padding="20dp"
     android:background="@color/white">
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Period Type"
-        android:textSize="40dp" />
+        android:textSize="40dp"
+        android:textColor="@color/black"/>
 
-    <RadioGroup
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
         <RadioButton
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Light"/>
+            android:text="Light"
+            android:id="@+id/light"
+            android:checked="false"
+            android:textSize="25dp" />
+
         <RadioButton
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Moderate"/>
+            android:text="Moderate"
+            android:id="@+id/moderate"
+            android:checked="false"
+            android:textSize="25dp" />
+
         <RadioButton
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Heavy"/>
-    </RadioGroup>
+            android:text="Heavy"
+            android:id="@+id/heavy"
+            android:checked="false"
+            android:textSize="25dp" />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Save"/>
+        android:text="Save"
+        android:id="@+id/save"
+        android:background="#C71B1B"/>
 </LinearLayout>

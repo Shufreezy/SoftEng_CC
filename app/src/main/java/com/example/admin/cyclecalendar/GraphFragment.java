@@ -17,9 +17,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
 
-/**
- * Created by Princess Lykken on 9/23/2016.
- */
 public class GraphFragment extends Fragment {
 
     BarChart barChart;
@@ -56,11 +53,11 @@ public class GraphFragment extends Fragment {
         theDates.add("October");
 
         BarData theData = new BarData(theDates,barDataSet);
+        barChart.setData(theData);
 
         barChart.setTouchEnabled(true);
         barChart.setDragEnabled(true);
         barChart.setScaleEnabled(true);
-
 
         return view;
     }

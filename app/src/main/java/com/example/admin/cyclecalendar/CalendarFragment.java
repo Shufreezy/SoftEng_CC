@@ -17,9 +17,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-/**
- * Created by Princess Lykken on 9/22/2016.
- */
 public class CalendarFragment extends Fragment {
     CustomCalendarView calendarView;
 
@@ -31,10 +28,10 @@ public class CalendarFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_calendar, container, false);
         // Inflate the layout for this fragment
-        //Initialize CustomCalendarView from layout
+        View view = inflater.inflate(R.layout.fragment_calendar, container, false);
 
+        //Initialize CustomCalendarView from layout
         calendarView = (CustomCalendarView) view.findViewById(R.id.calendar_view);
 
         //Initialize calendar with date

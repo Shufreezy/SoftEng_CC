@@ -1,9 +1,140 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-<TextView
-    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:text="Settings"/>
-</LinearLayout>
+    android:layout_margin="20dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="General"
+        android:layout_marginBottom="20dp"
+        android:textColor="#BDBDBD"
+        android:textSize="20dp"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/genfirst"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp">
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:id="@+id/imagecycle"
+            android:src="@drawable/ic_update"
+            android:layout_marginTop="10dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Auto Cycle"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:textColor="#212121"
+            android:id="@+id/autocycletext"
+            android:layout_alignTop="@+id/imagecycle"
+            android:layout_toRightOf="@+id/imagecycle"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="8dp"/>
+
+
+        <ToggleButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/cycletoggle"
+            android:layout_alignTop="@+id/autocycletext"
+            android:layout_toRightOf="@+id/autocycletext"
+            android:layout_marginLeft="24dp"
+            />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/genfirst"
+        android:id="@+id/gensecond"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
+        android:layout_marginBottom="20dp">
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="16dp"
+            android:id="@+id/imageauto"
+            android:src="@drawable/ic_report" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Display Warning"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:textColor="#212121"
+            android:id="@+id/autotext"
+            android:layout_alignTop="@+id/imageauto"
+            android:layout_toRightOf="@+id/imageauto"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="24dp"/>
+
+        <ToggleButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/autotoggle"
+            android:layout_alignTop="@+id/autotext"
+            android:layout_toRightOf="@+id/autotext"
+            android:layout_marginLeft="24dp"
+            />
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Cycle"
+        android:layout_below="@id/gensecond"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="10dp"
+        android:textColor="#BDBDBD"
+        android:textSize="20dp"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/gensecond"
+        android:id="@+id/cycledays"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp">
+
+        <EditText
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:id="@+id/imagecycledaystext"
+            android:layout_marginTop="16dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="days"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:textColor="#212121"
+            android:id="@+id/cycledaystext"
+            android:layout_alignTop="@+id/imagecycledaystext"
+            android:layout_toRightOf="@+id/imagecycledaystext"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="8dp"/>
+    </RelativeLayout>
+</RelativeLayout>
