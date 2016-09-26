@@ -38,8 +38,6 @@ public class MainActivity extends ActionBarActivity{
 
         topToolBar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(topToolBar);
-        //   topToolBar.setLogo(R.drawable.logo);
-        //   topToolBar.setLogoDescription(getResources().getStrifng(R.string.logo_desc));
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
@@ -139,8 +137,6 @@ public class MainActivity extends ActionBarActivity{
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-      //  getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 

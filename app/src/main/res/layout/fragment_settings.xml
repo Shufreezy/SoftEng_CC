@@ -30,27 +30,17 @@
             android:src="@drawable/ic_update"
             android:layout_marginTop="10dp"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Auto Cycle"
-            android:textStyle="bold"
-            android:textSize="20dp"
-            android:textColor="#212121"
-            android:id="@+id/autocycletext"
-            android:layout_alignTop="@+id/imagecycle"
-            android:layout_toRightOf="@+id/imagecycle"
-            android:layout_marginLeft="24dp"
-            android:layout_marginTop="8dp"/>
-
-
-        <ToggleButton
+        <Switch
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/cycletoggle"
-            android:layout_alignTop="@+id/autocycletext"
-            android:layout_toRightOf="@+id/autocycletext"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:textColor="#212121"
+            android:layout_alignTop="@+id/imagecycle"
+            android:layout_toRightOf="@+id/imagecycle"
             android:layout_marginLeft="24dp"
+            android:text="Auto Cycle"
             />
 
     </RelativeLayout>
@@ -73,26 +63,17 @@
             android:id="@+id/imageauto"
             android:src="@drawable/ic_report" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Display Warning"
-            android:textStyle="bold"
-            android:textSize="20dp"
-            android:textColor="#212121"
-            android:id="@+id/autotext"
-            android:layout_alignTop="@+id/imageauto"
-            android:layout_toRightOf="@+id/imageauto"
-            android:layout_marginTop="8dp"
-            android:layout_marginLeft="24dp"/>
-
-        <ToggleButton
+        <Switch
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/autotoggle"
-            android:layout_alignTop="@+id/autotext"
-            android:layout_toRightOf="@+id/autotext"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:textColor="#212121"
+            android:layout_alignTop="@+id/imageauto"
+            android:layout_toRightOf="@+id/imageauto"
             android:layout_marginLeft="24dp"
+            android:text="Display Warning"
             />
     </RelativeLayout>
 
@@ -122,7 +103,8 @@
             android:layout_marginLeft="16dp"
             android:layout_marginStart="16dp"
             android:id="@+id/imagecycledaystext"
-            android:layout_marginTop="16dp" />
+            android:layout_marginTop="16dp"
+            android:inputType="number"/>
 
         <TextView
             android:layout_width="wrap_content"
