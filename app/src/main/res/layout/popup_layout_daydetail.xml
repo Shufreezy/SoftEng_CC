@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="300dp"
     android:layout_height="wrap_content"
@@ -9,38 +9,51 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Period Type"
+        android:text="Flow Type"
+        android:id="@+id/popuptitle"
         android:textSize="40dp"
         android:textColor="@color/black"/>
 
+
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/flowtype"
+        android:layout_marginLeft="20dp"
+        android:layout_below="@id/popuptitle">
+
         <RadioButton
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Light"
+            android:layout_marginTop="20dp"
+            android:textColor="#C71B1B"
             android:id="@+id/light"
-            android:checked="false"
-            android:textSize="25dp" />
+
+            android:text="Light"/>
 
         <RadioButton
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Moderate"
+            android:layout_marginTop="20dp"
+            android:textColor="#C71B1B"
             android:id="@+id/moderate"
-            android:checked="false"
-            android:textSize="25dp" />
+            android:text="Moderate"/>
 
         <RadioButton
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Heavy"
+            android:layout_marginTop="20dp"
+            android:textColor="#C71B1B"
             android:id="@+id/heavy"
-            android:checked="false"
-            android:textSize="25dp" />
+            android:text="Heavy"/>
+    </RadioGroup>
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Save"
         android:id="@+id/save"
+        android:layout_below="@+id/flowtype"
+        android:layout_marginTop="20dp"
         android:background="#C71B1B"/>
-</LinearLayout>
+</RelativeLayout>

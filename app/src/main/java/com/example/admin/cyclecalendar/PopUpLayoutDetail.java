@@ -13,12 +13,15 @@ import android.widget.Toast;
 public class PopUpLayoutDetail extends Activity {
     RadioGroup radioGroup;
     Button btnSave;
-    RadioButton choice;
+    RadioButton light;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         setContentView(R.layout.popup_layout_daydetail);
+
+        light =(RadioButton)findViewById(R.id.light);
+        light.setChecked(true);
     }
 }

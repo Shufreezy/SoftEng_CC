@@ -42,7 +42,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/starttext"
                 android:textSize="20dp"
-                android:text="Start Day is September 6, 2016"/>
+                android:text="Start Day is September 3, 2016"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -57,7 +57,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/fertiletext"
                 android:textSize="20dp"
-                android:text="Fertile Days is from September 7, 2016 to September 16, 2016"/>
+                android:text="Fertile Days is from September 12, 2016 to September 19, 2016"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -71,7 +71,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/ovulation"
                 android:textSize="20dp"
-                android:text="Ovulation Day is September 13, 2016"/>
+                android:text="Ovulation Day is September 16, 2016"/>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

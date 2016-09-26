@@ -39,6 +39,7 @@
             android:textColor="#212121"
             android:layout_alignTop="@+id/imagecycle"
             android:layout_toRightOf="@+id/imagecycle"
+            android:switchPadding="15dp"
             android:layout_marginLeft="24dp"
             android:text="Auto Cycle"
             />
@@ -72,6 +73,7 @@
             android:textColor="#212121"
             android:layout_alignTop="@+id/imageauto"
             android:layout_toRightOf="@+id/imageauto"
+            android:switchPadding="15dp"
             android:layout_marginLeft="24dp"
             android:text="Display Warning"
             />
