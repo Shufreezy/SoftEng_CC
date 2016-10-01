@@ -1,5 +1,6 @@
 package com.example.admin.cyclecalendar;
 
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -25,7 +27,6 @@ import java.util.List;
 
 
 public class MainActivity extends ActionBarActivity{
-
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     String[]titles = {"Calendar", "Graph", "Glossary", "Settings"};
@@ -33,17 +34,23 @@ public class MainActivity extends ActionBarActivity{
     private CharSequence mDrawerTitle;
     private ActionBarDrawerToggle mDrawerToggle;
     private Toolbar topToolBar;
+    private Fragment fragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //////////////////////////
-        ////////////test code/////
-        if(CycleCalendarLibrary.getName(this.getApplicationContext()) == "") {
-            //initial (get no name)
-        }
+     /*   ArrayList<Date> myDate = new ArrayList<>();
+        myDate.add(new GregorianCalendar(2016, Calendar.OCTOBER, 1).getTime());
+        Date[] myDate2 = myDate.toArray(new Date[myDate.size()]);
+        int[] ints = {0,0};
+
+        myDate = new ArrayList<Date>(Arrays.asList(myDate2));
+        myDate.add(new GregorianCalendar(2016, Calendar.NOVEMBER,1).getTime());
+        myDate2 = myDate.toArray(new Date[myDate.size()]);
+
+        CycleCalendarLibrary.saveData(myDate2,ints,this.getApplicationContext());*/
 
         mTitle = mDrawerTitle = getTitle();
 
@@ -94,7 +101,7 @@ public class MainActivity extends ActionBarActivity{
         });
 
         // Initial Fragment
-        Fragment fragment = new CalendarFragment();
+        fragment = new CalendarFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.main_fragment_container, fragment).commit();
         mDrawerList.setItemChecked(0, true);
@@ -119,7 +126,7 @@ public class MainActivity extends ActionBarActivity{
                 break;
             case 3:
                 fragment = new SettingsFragment();
-                CycleCalendarLibrary cyc = new CycleCalendarLibrary();
+         /*       CycleCalendarLibrary cyc = new CycleCalendarLibrary();
                 Date[] trial = new Date[3];
                 trial[0] = new GregorianCalendar(2016, Calendar.OCTOBER,1).getTime();
                 Calendar c = Calendar.getInstance();
@@ -135,7 +142,7 @@ public class MainActivity extends ActionBarActivity{
                 trial2[2] = 0;
 
                 cyc.saveData(trial,trial2,getApplicationContext());
-                Log.e("Created","YES!");
+                Log.e("Created","YES!");*/
                 break;
         }
         fragmentManager.beginTransaction().replace(R.id.main_fragment_container, fragment).commit();
