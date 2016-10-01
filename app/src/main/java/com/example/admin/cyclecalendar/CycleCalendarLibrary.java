@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -49,6 +50,36 @@ public class CycleCalendarLibrary {
             Log.e(null, "saveName error");
         }
     }
+
+    /**
+     * This method is for changing the auto-cycle settings
+     */
+    public static void initializeCycle(int cycle, Context context) {
+        File path = context.getFilesDir();
+        File file = new File(path, CONFIG_NAME);
+        try {
+            new PrintWriter(file).close();
+            Files.write(String.valueOf(cycle), file, Charset.forName(FORMAT));
+        } catch (IOException e) {
+            Log.e(null, "saveName error");
+        }
+    }
+
+    /**
+     * This method is for getting the auto-cycle settings
+     */
+    public static int getCycle(Context context) {
+        File path = context.getFilesDir();
+        File file = new File(path, CONFIG_NAME);
+        String cycle = "28";
+        try {
+            cycle = Files.toString(file, Charset.forName(FORMAT));
+        } catch (IOException e) {
+            Log.e(null, "saveName error");
+        }
+        return Integer.parseInt(cycle);
+    }
+
 
     /**
      * This method is for saving data to the local storage
@@ -92,6 +123,7 @@ public class CycleCalendarLibrary {
         } catch (IOException e) {
             Log.e(null, "saveName error");
         }
+
         return da.periodDate;
     }
 
