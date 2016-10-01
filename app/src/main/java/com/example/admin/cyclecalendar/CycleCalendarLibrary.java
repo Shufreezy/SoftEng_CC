@@ -25,6 +25,11 @@ public class CycleCalendarLibrary {
     public static final String CONFIG = "cyclecalendar_config.txt";
 
     /**
+     * CFG filename
+     */
+    public static final String CONFIG_NAME = "cyclecalendar_config_name.txt";
+
+    /**
      * Android format standard
      */
     public static final String FORMAT = "UTF-8";
@@ -34,7 +39,7 @@ public class CycleCalendarLibrary {
      */
     public static void saveName(String name, Context context) {
         File path = context.getFilesDir();
-        File file = new File(path, CONFIG);
+        File file = new File(path, CONFIG_NAME);
 
         //empties database
         try {
@@ -114,7 +119,7 @@ public class CycleCalendarLibrary {
 
     public static String getName(Context context) {
         File path = context.getFilesDir();
-        File file = new File(path, CONFIG);
+        File file = new File(path, CONFIG_NAME);
         try {
             return Files.toString(file, Charset.forName(FORMAT));
         } catch (IOException e) {
