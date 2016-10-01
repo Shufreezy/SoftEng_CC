@@ -8,6 +8,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,7 +16,11 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 
@@ -108,6 +113,23 @@ public class MainActivity extends ActionBarActivity{
                 break;
             case 3:
                 fragment = new SettingsFragment();
+                CycleCalendarLibrary cyc = new CycleCalendarLibrary();
+                Date[] trial = new Date[3];
+                trial[0] = new GregorianCalendar(2016, Calendar.OCTOBER,1).getTime();
+                Calendar c = Calendar.getInstance();
+                c.setTime(trial[0]);
+                c.add(Calendar.DATE, 31);
+                trial[1] = c.getTime();
+                c.setTime(trial[1]);
+                c.add(Calendar.DATE, 30);
+                trial[2] = c.getTime();
+                int[] trial2 = new int[3];
+                trial2[0] = 0;
+                trial2[1] = 0;
+                trial2[2] = 0;
+
+                cyc.saveData(trial,trial2,getApplicationContext());
+                Log.e("Created","YES!");
                 break;
         }
         fragmentManager.beginTransaction().replace(R.id.main_fragment_container, fragment).commit();
