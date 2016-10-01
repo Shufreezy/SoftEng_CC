@@ -34,6 +34,12 @@ public class MainActivity extends ActionBarActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //////////////////////////
+        ////////////test code/////
+        if(CycleCalendarLibrary.getName(this.getApplicationContext()) == "") {
+            //initial (get no name)
+        }
+
         mTitle = mDrawerTitle = getTitle();
 
         topToolBar = (Toolbar)findViewById(R.id.toolbar);
