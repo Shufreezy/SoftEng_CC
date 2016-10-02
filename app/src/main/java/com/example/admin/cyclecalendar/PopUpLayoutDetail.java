@@ -10,10 +10,14 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.google.common.primitives.Ints;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 //Pop-Up Intent for Clicking the Days
 public class PopUpLayoutDetail extends Activity {
@@ -29,9 +33,8 @@ public class PopUpLayoutDetail extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.popup_layout_daydetail);
 
-
-        Bundle extras = getIntent().getExtras();
-        Log.e("DATE",""+extras.getString("CurrentDate"));
+        final Date dateObj = new Date(getIntent().getExtras().getLong("CurrentDate", -1));
+        Log.e("DATE: ", dateObj + "");
         light =(RadioButton)findViewById(R.id.light);
         moderate =(RadioButton)findViewById(R.id.moderate);
         heavy =(RadioButton)findViewById(R.id.heavy);
@@ -41,7 +44,25 @@ public class PopUpLayoutDetail extends Activity {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ArrayList<Date> flow = new ArrayList<Date>(Arrays.asList(CycleCalendarLibrary.initializeDates(getApplicationContext())));
+                ArrayList<Date> flowDate = new ArrayList<Date>(Arrays.asList(CycleCalendarLibrary.initializeDates(getApplicationContext())));
+                List<Integer> flowType = Ints.asList(CycleCalendarLibrary.initializeChart(getApplicationContext()));
+                Log.e("NUM: ",""+flowType.size());
+
+               flowDate.add(dateObj);
+                if(light.isChecked())
+                    flowType.add(1);
+                else if(moderate.isChecked())
+                    flowType.add(2);
+                else
+                    flowType.add(3);
+
+                for(int i=0;i<flowType.size();i++) {
+                    Log.e("CHECK: ", "" + flowType.get(i));
+                }
+            //    Date[] Dates = flowDate.toArray(new Date[flowDate.size()]);
+            //    int[] keys = {0,0,1,2,3};
+           //     CycleCalendarLibrary.saveData(Dates,keys,getApplicationContext());
+                Log.e("CLICKED","SAVED");
             }
         });
 

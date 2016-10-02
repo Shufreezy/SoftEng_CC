@@ -70,7 +70,7 @@ public class CalendarFragment extends Fragment {
             public void onDateSelected(Date date) {
                 Intent intent = new Intent(CalendarFragment.this.getActivity(), PopUpLayoutDetail.class);
                 Log.e("DATES:",""+date);
-                intent.putExtra("CurrentDate",date.getTime());
+                intent.putExtra("CurrentDate", date.getTime());
                 startActivity(intent);
                 List<DayDecorator> decorators = new ArrayList<>();
                 decorators.add(new DaysDecorator());
