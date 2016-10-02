@@ -69,8 +69,8 @@ public class CalendarFragment extends Fragment {
             @Override
             public void onDateSelected(Date date) {
                 Intent intent = new Intent(CalendarFragment.this.getActivity(), PopUpLayoutDetail.class);
-                Log.e("DATES:",""+date);
-                intent.putExtra("CurrentDate",date.getTime());
+                Log.e("DATES:", "" + date);
+                intent.putExtra("CurrentDate", date.getTime());
                 startActivity(intent);
                 List<DayDecorator> decorators = new ArrayList<>();
                 decorators.add(new DaysDecorator());
@@ -97,42 +97,45 @@ public class CalendarFragment extends Fragment {
             CycleCalendarLibrary cyc = new CycleCalendarLibrary();
             Calendar cal1 = Calendar.getInstance();
             Calendar cal2 = Calendar.getInstance();
+
+            /**TODO: please ko add defensive programming
+             ***
+             * Initially null ang ma receive sa cyc.initializeDates(getContext()); and myInt
+             * */
             Date[] myDate = cyc.initializeDates(getContext());
             int[] myInt = cyc.initializeChart(getContext());
-            for(int i=0;i<myDate.length;i++) {
-                if(myInt[i] == 0) {
+            for (int i = 0; i < myDate.length; i++) {
+                if (myInt[i] == 0) {
                     cal1.setTime(dayView.getDate());
                     cal2.setTime(myDate[i]);
 
                     boolean sameDays = cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
                             cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR);
 
-                    if(sameDays) {
+                    if (sameDays) {
                         dayView.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.ic_firstday));
                         dayView.setTextColor(Color.BLACK);
                     }
 
-                    cal2.add(Calendar.DATE,9);
-                    for(int j=1; j<8;j++) {
+                    cal2.add(Calendar.DATE, 9);
+                    for (int j = 1; j < 8; j++) {
                         cal1.setTime(dayView.getDate());
 
                         boolean sameDay = cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
                                 cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR);
 
-                        if(sameDay) {
-                            if(j==5) {
+                        if (sameDay) {
+                            if (j == 5) {
                                 dayView.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.ic_ovulation));
                                 dayView.setTextColor(Color.WHITE);
-                            }
-                            else {
+                            } else {
                                 dayView.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.ic_fertile));
                                 dayView.setTextColor(Color.WHITE);
                             }
                         }
 
-                        cal2.add(Calendar.DATE,1);
+                        cal2.add(Calendar.DATE, 1);
                     }
-
 
 
                 }
@@ -141,7 +144,7 @@ public class CalendarFragment extends Fragment {
                 boolean sameDay = cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
                         cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR);
 
-                if(sameDay) {
+                if (sameDay) {
                     dayView.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.ic_fertile));
                     dayView.setTextColor(Color.WHITE);
                 }
