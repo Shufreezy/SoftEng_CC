@@ -51,7 +51,7 @@ public class CycleCalendarLibrary {
             new PrintWriter(file).close();
             Files.write(name, file, Charset.forName(FORMAT));
         } catch (IOException e) {
-            Log.e(null, "saveName error");
+            Log.e(null, "I/O error: File manipulation error");
         }
     }
 
@@ -65,7 +65,7 @@ public class CycleCalendarLibrary {
             new PrintWriter(file).close();
             Files.write(String.valueOf(cycle), file, Charset.forName(FORMAT));
         } catch (IOException e) {
-            Log.e(null, "saveName error");
+            Log.e(null, "I/O error: File manipulation error");
         }
     }
 
@@ -79,7 +79,7 @@ public class CycleCalendarLibrary {
         try {
             cycle = Files.toString(file, Charset.forName(FORMAT));
         } catch (IOException e) {
-            Log.e(null, "saveName error");
+            Log.e(null, "I/O error: File manipulation error");
         }
         return Integer.parseInt(cycle);
     }
@@ -97,7 +97,7 @@ public class CycleCalendarLibrary {
         try {
             new PrintWriter(file).close();
         } catch (IOException e) {
-            Log.e(null, "saveName error");
+            Log.e(null, "I/O error: File manipulation error");
         }
 
         GsonBuilder builder = new GsonBuilder();
@@ -109,7 +109,7 @@ public class CycleCalendarLibrary {
         try {
             Files.write(gson.toJson(pa), file, Charset.forName(FORMAT));
         } catch (IOException e) {
-            Log.e(null, "saveName error");
+            Log.e(null, "I/O error: File manipulation error");
         }
     }
 
@@ -125,7 +125,7 @@ public class CycleCalendarLibrary {
             String contents = Files.toString(file, Charset.forName(FORMAT));
             da = gson.fromJson(contents, DatabaseAttributes.class);
         } catch (IOException e) {
-            Log.e(null, "saveName error");
+            Log.e(null, "I/O error: File manipulation error");
         }
 
         return da.periodDate;
@@ -143,7 +143,7 @@ public class CycleCalendarLibrary {
             String contents = Files.toString(file, Charset.forName(FORMAT));
             da = gson.fromJson(contents, DatabaseAttributes.class);
         } catch (IOException e) {
-            Log.e(null, "saveName error");
+            Log.e(null, "I/O error: File manipulation error");
         }
         return da.periodChart;
     }
@@ -159,7 +159,7 @@ public class CycleCalendarLibrary {
         try {
             return Files.toString(file, Charset.forName(FORMAT));
         } catch (IOException e) {
-            Log.e(null, "saveName error");
+            Log.e(null, "I/O error: File manipulation error");
         }
         return null;
     }
