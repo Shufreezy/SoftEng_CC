@@ -1,15 +1,16 @@
 package com.example.admin.cyclecalendar;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,12 +18,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 
@@ -40,17 +36,6 @@ public class MainActivity extends ActionBarActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-     /*   ArrayList<Date> myDate = new ArrayList<>();
-        myDate.add(new GregorianCalendar(2016, Calendar.OCTOBER, 1).getTime());
-        Date[] myDate2 = myDate.toArray(new Date[myDate.size()]);
-        int[] ints = {0,0};
-
-        myDate = new ArrayList<Date>(Arrays.asList(myDate2));
-        myDate.add(new GregorianCalendar(2016, Calendar.NOVEMBER,1).getTime());
-        myDate2 = myDate.toArray(new Date[myDate.size()]);
-
-        CycleCalendarLibrary.saveData(myDate2,ints,this.getApplicationContext());*/
 
         mTitle = mDrawerTitle = getTitle();
 
@@ -101,12 +86,7 @@ public class MainActivity extends ActionBarActivity{
         });
 
         // Initial Fragment
-        fragment = new CalendarFragment();
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.main_fragment_container, fragment).commit();
-        mDrawerList.setItemChecked(0, true);
-        setTitle(titles[0]);
-        mDrawerLayout.closeDrawer(mDrawerList);
+        loadInitialFragment();
     }
 
     private void selectItemFragment(int position){
@@ -126,23 +106,6 @@ public class MainActivity extends ActionBarActivity{
                 break;
             case 3:
                 fragment = new SettingsFragment();
-         /*       CycleCalendarLibrary cyc = new CycleCalendarLibrary();
-                Date[] trial = new Date[3];
-                trial[0] = new GregorianCalendar(2016, Calendar.OCTOBER,1).getTime();
-                Calendar c = Calendar.getInstance();
-                c.setTime(trial[0]);
-                c.add(Calendar.DATE, 31);
-                trial[1] = c.getTime();
-                c.setTime(trial[1]);
-                c.add(Calendar.DATE, 30);
-                trial[2] = c.getTime();
-                int[] trial2 = new int[3];
-                trial2[0] = 0;
-                trial2[1] = 0;
-                trial2[2] = 0;
-
-                cyc.saveData(trial,trial2,getApplicationContext());
-                Log.e("Created","YES!");*/
                 break;
         }
         fragmentManager.beginTransaction().replace(R.id.main_fragment_container, fragment).commit();
@@ -198,5 +161,44 @@ public class MainActivity extends ActionBarActivity{
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        boolean previouslyStarted = prefs.getBoolean("firstrun", false);
+        if(!previouslyStarted) {
+            SharedPreferences.Editor edit = prefs.edit();
+            edit.putBoolean("firstrun", Boolean.TRUE);
+            edit.commit();
+            Toast.makeText(MainActivity.this, "FIRST RUN!!!!", Toast.LENGTH_SHORT).show();
+
+            Intent intent = new Intent(MainActivity.this, FirstRunEntry.class);
+            startActivityForResult(intent, 2);// Activity is started with requestCode 2
+
+        }
+    }
+
+    private void loadInitialFragment() {
+        // Initial Fragment
+        fragment = new CalendarFragment();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.main_fragment_container, fragment).commit();
+        mDrawerList.setItemChecked(0, true);
+        setTitle(titles[0]);
+        mDrawerLayout.closeDrawer(mDrawerList);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        // check if the request code is same as what is passed  here it is 2
+        if(requestCode==2)
+        {
+            loadInitialFragment();
+        }
     }
 }
