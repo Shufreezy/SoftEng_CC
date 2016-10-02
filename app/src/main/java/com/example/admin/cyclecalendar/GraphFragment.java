@@ -3,7 +3,6 @@ package com.example.admin.cyclecalendar;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,7 +64,7 @@ public class GraphFragment extends Fragment {
             counter++;
         }
 
-        BarDataSet barDataSet = new BarDataSet(barEntries,"The Dates");
+        BarDataSet barDataSet = new BarDataSet(barEntries,"Flow Type");
         BarData theData = new BarData(theDates,barDataSet);
         barChart.setData(theData);
 

@@ -1,6 +1,8 @@
 package com.example.admin.cyclecalendar;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -17,6 +19,7 @@ import java.util.List;
 //Pop-Up Intent for Clicking the Days
 public class PopUpLayoutDetail extends Activity {
     Button btnSave;
+    Button btnSetFirst;
     RadioButton light;
     RadioButton moderate;
     RadioButton heavy;
@@ -26,6 +29,7 @@ public class PopUpLayoutDetail extends Activity {
     List<Integer> flowType;
 
     int index;
+    boolean set;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,8 +41,10 @@ public class PopUpLayoutDetail extends Activity {
         moderate =(RadioButton)findViewById(R.id.moderate);
         heavy =(RadioButton)findViewById(R.id.heavy);
         btnSave= (Button)findViewById(R.id.save);
+        btnSetFirst = (Button) findViewById(R.id.firstday);
         light.setChecked(true);
         index = -1;
+        set = false;
 
         // Initialize values
         final Date dateObj = new Date(getIntent().getExtras().getLong("CurrentDate", -1));
@@ -66,6 +72,19 @@ public class PopUpLayoutDetail extends Activity {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // set new start date
+                if(set) {
+                    for (int i = flowType.size() - 1; i >= 0; i--) {
+                        if (flowType.get(i) == 0) {
+                            flowType.remove(i);
+                            flowDate.remove(i);
+                            flowDate.add(dateObj);
+                            flowType.add(0);
+                            break;
+                        }
+                    }
+                }
+
                 int type;
                 if(light.isChecked())
                     type = 1;
@@ -74,6 +93,7 @@ public class PopUpLayoutDetail extends Activity {
                 else
                     type = 3;
 
+                // overwrite previous data if date exist
                 if(index != -1) {
                     flowType.set(index,type);
                 }
@@ -85,9 +105,26 @@ public class PopUpLayoutDetail extends Activity {
                 Date[] Dates = flowDate.toArray(new Date[flowDate.size()]);
                 int[] keys = Ints.toArray(flowType);
                 CycleCalendarLibrary.saveData(Dates,keys,getApplicationContext());
-                finish();
+                Intent intent = new Intent();
+                setResult(2, intent);
+                finish();//finishing activity
             }
         });
 
+        btnSetFirst.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(set) {
+                    set = false;
+                    btnSetFirst.setBackgroundColor(Color.parseColor("#C71B1B"));
+                    btnSetFirst.setTextColor(Color.WHITE);
+                }
+                else {
+                    set = true;
+                    btnSetFirst.setBackgroundColor(Color.parseColor("#78DDBB"));
+                    btnSetFirst.setTextColor(Color.WHITE);
+                }
+            }
+        });
     }
 }

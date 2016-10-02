@@ -27,6 +27,8 @@
         <activity android:name=".FirstRunEntry" >
         </activity>
         <service android:name=".ScheduledService" />
+        <uses-permission android:name=".android.permission.SYSTEM_ALERT_WINDOW"/>
+        <receiver android:name=".MainActivity$MyNotificationPublisher" />
     </application>
 
 </manifest>

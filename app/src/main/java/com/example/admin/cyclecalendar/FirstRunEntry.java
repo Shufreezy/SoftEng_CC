@@ -1,12 +1,10 @@
 package com.example.admin.cyclecalendar;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -51,26 +49,32 @@ public class FirstRunEntry extends Activity {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CycleCalendarLibrary.saveName(name.getText().toString(), getApplicationContext());
-                CycleCalendarLibrary.initializeCycle(Integer.parseInt(cycledays.getText().toString()), getApplicationContext());
+                if(errorchecking()) {
+                    //Save name and cycle days to config
+                    CycleCalendarLibrary.saveName(name.getText().toString(), getApplicationContext());
+                    CycleCalendarLibrary.initializeCycle(Integer.parseInt(cycledays.getText().toString()), getApplicationContext());
 
-                ArrayList<Date> myDate = new ArrayList<>();
-                List<Integer> myKeys = new ArrayList<>();
-                Date firstDateLastMens = new GregorianCalendar(year, month, day).getTime();
-                Calendar c = Calendar.getInstance();
-                c.setTime(firstDateLastMens);
-                c.add(Calendar.DATE, 30);
-                firstDateLastMens = c.getTime();
-                myDate.add(firstDateLastMens);
-                myKeys.add(0);
+                    ArrayList<Date> myDate = new ArrayList<>();
+                    List<Integer> myKeys = new ArrayList<>();
+                    Date firstDateLastMens = new GregorianCalendar(year, month, day).getTime();
+                    Calendar c = Calendar.getInstance();
+                    c.setTime(firstDateLastMens);
+                    c.add(Calendar.DATE, CycleCalendarLibrary.getCycle(getApplicationContext()));
+                    firstDateLastMens = c.getTime();
+                    myDate.add(firstDateLastMens);
+                    myKeys.add(0);
 
-                Date[] Dates = myDate.toArray(new Date[myDate.size()]);
-                int[] keys = Ints.toArray(myKeys);
+                    Date[] Dates = myDate.toArray(new Date[myDate.size()]);
+                    int[] keys = Ints.toArray(myKeys);
 
-                CycleCalendarLibrary.saveData(Dates, keys, getApplicationContext());
-                Intent intent = new Intent();
-                setResult(2, intent);
-                finish();//finishing activity
+                    CycleCalendarLibrary.saveData(Dates, keys, getApplicationContext());
+                    Intent intent = new Intent();
+                    setResult(2, intent);
+                    finish();//finishing activity
+                }
+                else {
+                    Toast.makeText(FirstRunEntry.this,"PLEASE SUPPLY MISSING FIELDS",Toast.LENGTH_LONG);
+                }
             }
         });
     }
@@ -78,8 +82,6 @@ public class FirstRunEntry extends Activity {
     @SuppressWarnings("deprecation")
     public void setDate(View view) {
         showDialog(999);
-        Toast.makeText(getApplicationContext(), "ca", Toast.LENGTH_SHORT)
-                .show();
     }
 
     @Override
@@ -110,13 +112,13 @@ public class FirstRunEntry extends Activity {
     private boolean errorchecking() {
         boolean flag = true;
 
-        if(name.getText().toString() == "") {
+        if(name.getText().toString().equals(null)) {
             flag = false;
         }
-        if(cycledays.getText().toString() == "") {
+        if(cycledays.getText().toString().equals(null)) {
             flag = false;
         }
-        if(date.getText().toString() == "") {
+        if(date.getText().toString().equals(null)) {
             flag = false;
         }
 

@@ -12,7 +12,7 @@
         android:textColor="#BDBDBD"
         android:textSize="20dp"/>
 
-    <RelativeLayout
+ <!--   <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/user"
@@ -42,14 +42,14 @@
             android:id="@+id/username"/>
 
     </RelativeLayout>
-
+-->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/genfirst"
-        android:layout_below="@+id/user"
         android:paddingTop="12dp"
         android:paddingBottom="12dp"
+        android:layout_marginTop="15dp"
         android:layout_marginBottom="10dp">
 
         <ImageView

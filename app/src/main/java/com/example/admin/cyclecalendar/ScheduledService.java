@@ -2,6 +2,7 @@ package com.example.admin.cyclecalendar;
 
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.IntentService;
 import android.content.Context;
@@ -23,7 +24,7 @@ public class ScheduledService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-            new AlertDialog.Builder(this.getApplicationContext())
+            new AlertDialog.Builder(this)
                     .setTitle("Cycle Calendar")
                     .setMessage("Your period begins in about 3 days.")
                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
@@ -36,6 +37,7 @@ public class ScheduledService extends IntentService {
                             // do nothing
                         }
                     })
+
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .show();
         }

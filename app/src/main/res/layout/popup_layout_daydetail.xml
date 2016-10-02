@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Flow Type"
+        android:gravity="center"
         android:id="@+id/popuptitle"
         android:textSize="40dp"
         android:textColor="@color/black"/>
@@ -48,12 +49,22 @@
             android:text="Heavy"/>
     </RadioGroup>
 
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Set as First Day"
+        android:id="@+id/firstday"
+        android:layout_below="@+id/flowtype"
+        android:layout_marginTop="20dp"
+        android:background="#C71B1B"/>
+
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Save"
         android:id="@+id/save"
-        android:layout_below="@+id/flowtype"
+        android:layout_below="@+id/firstday"
         android:layout_marginTop="20dp"
         android:background="#C71B1B"/>
 </RelativeLayout>
