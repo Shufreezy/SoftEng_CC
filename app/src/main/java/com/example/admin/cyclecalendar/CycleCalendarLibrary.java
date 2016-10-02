@@ -1,6 +1,11 @@
 package com.example.admin.cyclecalendar;
 
+import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
+import android.os.SystemClock;
 import android.util.Log;
 
 import com.google.common.io.Files;
@@ -11,7 +16,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -158,6 +162,30 @@ public class CycleCalendarLibrary {
             Log.e(null, "saveName error");
         }
         return null;
+    }
+
+    /**
+     * set alarm
+     */
+    public static void setAlarm(Date currentDate, Date predictionDate, Activity activity) {
+
+        long diffInMillies = predictionDate.getTime() - currentDate.getTime();
+
+        AlarmManager mgr = (AlarmManager) activity.getSystemService(Context.ALARM_SERVICE);
+        Intent i = new Intent(activity, ScheduledService.class);
+        PendingIntent pi = PendingIntent.getService(activity, 0, i, 0);
+        mgr.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + diffInMillies, pi);
+    }
+
+    /**
+     * cancel alarm if there is a new first day (off schedule)
+     */
+    public static void cancelAlarm(Activity activity) {
+        AlarmManager mgr = (AlarmManager) activity.getSystemService(Context.ALARM_SERVICE);
+        Intent i = new Intent(activity, ScheduledService.class);
+        PendingIntent pi = PendingIntent.getService(activity, 0, i, 0);
+        if (mgr != null)
+            mgr.cancel(pi);
     }
 
 }
