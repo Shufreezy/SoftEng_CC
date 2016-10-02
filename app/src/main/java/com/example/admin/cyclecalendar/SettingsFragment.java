@@ -22,11 +22,6 @@ public class SettingsFragment extends Fragment {
         username = (EditText) view.findViewById(R.id.username);
         cycledays = (EditText) view.findViewById(R.id.imagecycledaystext);
 
-        if(CycleCalendarLibrary.getName(this.getContext())!= "") {
-            username.setText(CycleCalendarLibrary.getName(this.getContext()));
-            cycledays.setText(CycleCalendarLibrary.getCycle(getContext()));
-        }
-
         return view;
 
     }
