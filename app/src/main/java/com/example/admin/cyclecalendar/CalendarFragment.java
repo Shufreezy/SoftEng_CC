@@ -119,7 +119,7 @@ public class CalendarFragment extends Fragment {
             Calendar cal3 = Calendar.getInstance();
             DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
 
-            try {
+            if(CycleCalendarLibrary.fileExist(getContext())) {
                 Date[] myDate = CycleCalendarLibrary.initializeDates(getContext());
                 int[] myInt = CycleCalendarLibrary.initializeChart(getContext());
 
@@ -162,7 +162,7 @@ public class CalendarFragment extends Fragment {
                         }
                     }
                 }
-            } catch (Exception e) {}
+            }
         }
     }
 }

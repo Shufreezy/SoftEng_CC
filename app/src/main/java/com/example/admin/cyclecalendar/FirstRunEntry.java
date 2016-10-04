@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -71,9 +72,8 @@ public class FirstRunEntry extends Activity {
                     int[] keys = Ints.toArray(myKeys);
 
                     CycleCalendarLibrary.saveData(Dates, keys, getApplicationContext());
-                    Intent intent = new Intent();
-                    setResult(2, intent);
-                    finish();//finishing activity
+                    Intent intent = new Intent(FirstRunEntry.this, MainActivity.class);
+                    startActivityForResult(intent, 2);
                 }
                 else {
                     Toast.makeText(FirstRunEntry.this,"PLEASE SUPPLY MISSING FIELDS",Toast.LENGTH_LONG);
@@ -114,18 +114,32 @@ public class FirstRunEntry extends Activity {
 
     private boolean errorchecking() {
         boolean flag = true;
+        String message ="";
+        if(cycledays.getText().toString().isEmpty()) {
+            message = "Please enter cycle days";
+            flag = false;
+        }
+        if(date.getText().toString().isEmpty()) {
+            message = "Please select date";
+            flag = false;
+        }
+        if(name.getText().toString().isEmpty()) {
+            message = "Please enter name";
+            flag = false;
+        }
 
-        if(name.getText().toString().equals(null)) {
-            flag = false;
-        }
-        if(cycledays.getText().toString().equals(null)) {
-            flag = false;
-        }
-        if(date.getText().toString().equals(null)) {
-            flag = false;
-        }
-
+        if(!flag)
+            snackBarCall(message);
         return flag;
     }
 
+    private void snackBarCall(String message) {
+
+        Snackbar.make(findViewById(R.id.main_layout), message, Snackbar.LENGTH_LONG).setAction("YES!", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            }
+        }).show();
+
+    }
 }

@@ -27,6 +27,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.common.primitives.Ints;
 
@@ -46,6 +47,8 @@ public class MainActivity extends ActionBarActivity{
     private ActionBarDrawerToggle mDrawerToggle;
     private Toolbar topToolBar;
     private Fragment fragment;
+    PendingIntent pendingIntent;
+    AlarmManager manager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -180,23 +183,6 @@ public class MainActivity extends ActionBarActivity{
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-        boolean previouslyStarted = prefs.getBoolean("firstrun", false);
-        if(!previouslyStarted) {
-            SharedPreferences.Editor edit = prefs.edit();
-            edit.putBoolean("firstrun", Boolean.TRUE);
-            edit.commit();
-
-            Intent intent = new Intent(MainActivity.this, FirstRunEntry.class);
-            startActivityForResult(intent, 2);// Activity is started with requestCode 2
-
-        }
-    }
-
-    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
         super.onActivityResult(requestCode, resultCode, data);
@@ -204,7 +190,6 @@ public class MainActivity extends ActionBarActivity{
         if(requestCode==2)
         {
             loadInitialFragment();
-            //   setAlarm();
         }
     }
 
@@ -220,9 +205,11 @@ public class MainActivity extends ActionBarActivity{
     }
 
 
-    //Generate next prediction
+
+    //GENERATE NEXT PREDICTION
+
     public void generateNextPrediction() {
-        try {
+        if(CycleCalendarLibrary.fileExist(getApplicationContext())) {
             Date predictionDate = new Date();
             Date currentDate = new Date();
             Date[] myDates = CycleCalendarLibrary.initializeDates(getApplicationContext());
@@ -234,37 +221,36 @@ public class MainActivity extends ActionBarActivity{
                 }
             }
             Calendar current = Calendar.getInstance();
+            current.set(Calendar.HOUR_OF_DAY,8);
+            current.set(Calendar.MINUTE,0);
+            current.set(Calendar.SECOND, 0);
+            current.set(Calendar.MILLISECOND, 0);
             Calendar prediction = Calendar.getInstance();
             prediction.setTime(predictionDate);
             prediction.add(Calendar.DATE, 13);
+            prediction.set(Calendar.HOUR_OF_DAY, 0);
+            prediction.set(Calendar.MINUTE, 0);
+            prediction.set(Calendar.SECOND, 0);
+            prediction.set(Calendar.MILLISECOND, 0);
 
-            boolean sameDays = current.get(Calendar.YEAR) == prediction.get(Calendar.YEAR) &&
-                    current.get(Calendar.DAY_OF_YEAR) == prediction.get(Calendar.DAY_OF_YEAR);
-
-            if (sameDays) {
-                prediction.add(Calendar.DATE, CycleCalendarLibrary.getCycle(getApplicationContext()));
-                ArrayList<Date> myDate = new ArrayList<Date>(Arrays.asList(CycleCalendarLibrary.initializeDates(getApplicationContext())));
-                List<Integer> myKeys = new ArrayList<Integer>(Ints.asList(CycleCalendarLibrary.initializeChart(getApplicationContext())));
-
-                prediction.add(Calendar.DATE,-13);
-                predictionDate = prediction.getTime();
-                myDate.add(predictionDate);
-                myKeys.add(0);
-
-                Date[] Dates = myDate.toArray(new Date[myDate.size()]);
-                int[] mykeys = Ints.toArray(myKeys);
-                CycleCalendarLibrary.saveData(Dates, mykeys, getApplicationContext());
-                loadInitialFragment();
-            }
-        } catch(Exception ex) {
-
+            predictionDate = prediction.getTime();
+            currentDate = current.getTime();
+            long diffInMillies = predictionDate.getTime() - currentDate.getTime();
+            GenerateNextPrediction(diffInMillies);
         }
+    }
 
+    public void GenerateNextPrediction(long delay) {
+        Intent alarmIntent = new Intent(this, Prediction.class);
+        pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0);
+        long futureInMillis = SystemClock.elapsedRealtime() + delay;
+        manager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        manager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, futureInMillis, pendingIntent);
     }
 
     //Set Notification
     private void setAlarm() {
-        try {
+        if(CycleCalendarLibrary.fileExist(getApplicationContext())) {
             Date predictionDate = new Date();
             Date currentDate = new Date();
             Date[] myDates = CycleCalendarLibrary.initializeDates(getApplicationContext());
@@ -286,17 +272,9 @@ public class MainActivity extends ActionBarActivity{
 
             c.setTime(predictionDate);
             c.add(Calendar.DATE, -3);
-            c.set(Calendar.HOUR_OF_DAY, 7);
-            c.set(Calendar.MINUTE, 0);
-            c.set(Calendar.SECOND, 0);
-            c.set(Calendar.MILLISECOND, 0);
-
             predictionDate = c.getTime();
             long diffInMillies = predictionDate.getTime() - currentDate.getTime();
-            Log.e("MILLIS: " , diffInMillies+"");
             scheduleNotification(getApplicationContext(), diffInMillies, 1);
-        } catch (Exception ex) {
-
         }
     }
 
@@ -316,30 +294,14 @@ public class MainActivity extends ActionBarActivity{
 
         Notification notification = builder.build();
 
-        Intent notificationIntent = new Intent(context, MyNotificationPublisher.class);
-        notificationIntent.putExtra(MyNotificationPublisher.NOTIFICATION_ID, notificationId);
-        notificationIntent.putExtra(MyNotificationPublisher.NOTIFICATION, notification);
+        Intent notificationIntent = new Intent(context, com.example.admin.cyclecalendar.Notification.class);
+        notificationIntent.putExtra(com.example.admin.cyclecalendar.Notification.NOTIFICATION_ID, notificationId);
+        notificationIntent.putExtra(com.example.admin.cyclecalendar.Notification.NOTIFICATION, notification);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, notificationId, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
 
         long futureInMillis = SystemClock.elapsedRealtime() + delay;
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, futureInMillis, pendingIntent);
-    }
-
-    public static class MyNotificationPublisher extends BroadcastReceiver {
-
-        public static String NOTIFICATION_ID = "notification_id";
-        public static String NOTIFICATION = "notification";
-
-        @Override
-        public void onReceive(final Context context, Intent intent) {
-
-            NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-
-            Notification notification = intent.getParcelableExtra(NOTIFICATION);
-            int notificationId = intent.getIntExtra(NOTIFICATION_ID, 0);
-            notificationManager.notify(notificationId, notification);
-        }
     }
 
 }

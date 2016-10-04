@@ -188,6 +188,21 @@ public class CycleCalendarLibrary {
             mgr.cancel(pi);
     }
 
+    /**
+     * checks if file exists
+     */
+    public static boolean fileExist(Context context) {
+        boolean flag = false;
+
+        File path = context.getFilesDir();
+        File file = new File(path, CONFIG_NAME);
+
+        if(file.exists()) {
+            flag = true;
+        }
+
+        return flag;
+    }
 }
 
 /**
