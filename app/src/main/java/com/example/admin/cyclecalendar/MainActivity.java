@@ -278,9 +278,18 @@ public class MainActivity extends ActionBarActivity{
 
             Calendar c = Calendar.getInstance();
             Calendar current = Calendar.getInstance();
+            current.set(Calendar.HOUR_OF_DAY, 7);
+            current.set(Calendar.MINUTE, 0);
+            current.set(Calendar.SECOND, 0);
+            current.set(Calendar.MILLISECOND, 0);
             currentDate = current.getTime();
+
             c.setTime(predictionDate);
             c.add(Calendar.DATE, -3);
+            c.set(Calendar.HOUR_OF_DAY, 7);
+            c.set(Calendar.MINUTE, 0);
+            c.set(Calendar.SECOND, 0);
+            c.set(Calendar.MILLISECOND, 0);
 
             predictionDate = c.getTime();
             long diffInMillies = predictionDate.getTime() - currentDate.getTime();

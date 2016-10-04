@@ -57,6 +57,9 @@ public class FirstRunEntry extends Activity {
                     ArrayList<Date> myDate = new ArrayList<>();
                     List<Integer> myKeys = new ArrayList<>();
                     Date firstDateLastMens = new GregorianCalendar(year, month, day).getTime();
+                    Date first = firstDateLastMens;
+                    myDate.add(first);
+                    myKeys.add(0);
                     Calendar c = Calendar.getInstance();
                     c.setTime(firstDateLastMens);
                     c.add(Calendar.DATE, CycleCalendarLibrary.getCycle(getApplicationContext()));
