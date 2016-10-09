@@ -4,7 +4,10 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,6 +54,33 @@ public class SettingsFragment extends Fragment {
                     editor.putBoolean("AutoCycleToggle", false);
                     editor.commit();
                 }
+            }
+        });
+
+        cycledays.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start,
+                                          int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start,
+                                      int before, int count) {
+                if(s.length() == 0) {
+                    cycledays.setError("Please enter cycle days");
+                }
+                else {
+                    if (Integer.parseInt(s.toString()) < 14)
+                        cycledays.setError("Cycle days must be between 14 to 100 days.");
+                    if (Integer.parseInt(s.toString()) > 100)
+                        cycledays.setError("Cycle days must be between 14 to 100 days.");
+                }
+
             }
         });
 

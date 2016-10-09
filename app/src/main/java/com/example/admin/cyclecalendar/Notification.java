@@ -4,6 +4,10 @@ import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
+
+import java.util.Calendar;
+import java.util.Date;
 
 public class Notification extends BroadcastReceiver {
 
@@ -18,5 +22,6 @@ public class Notification extends BroadcastReceiver {
         android.app.Notification notification = intent.getParcelableExtra(NOTIFICATION);
         int notificationId = intent.getIntExtra(NOTIFICATION_ID, 0);
         notificationManager.notify(notificationId, notification);
+        Log.e("HELlO", "FIRED");
     }
 }

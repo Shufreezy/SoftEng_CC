@@ -48,7 +48,9 @@ public class MainActivity extends ActionBarActivity{
     private Toolbar topToolBar;
     private Fragment fragment;
     PendingIntent pendingIntent;
+    public PendingIntent activity;
     AlarmManager manager;
+    public AlarmManager alarmManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -240,6 +242,33 @@ public class MainActivity extends ActionBarActivity{
         }
     }
 
+    public void GenerateNextAlarm(Context context, long delay, int notificationId) {
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
+                .setContentTitle("Cycle Calendar")
+                .setContentText("Your period begins in about 3 days.")
+                .setAutoCancel(true)
+                .setSmallIcon(R.drawable.ic_report)
+                .setLargeIcon(((BitmapDrawable) context.getResources().getDrawable(R.drawable.ic_report)).getBitmap())
+                .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
+
+        Intent intent = new Intent(context, MainActivity.class);
+        activity = PendingIntent.getActivity(context, notificationId, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+        builder.setContentIntent(activity);
+
+        Notification notification = builder.build();
+
+        Intent notificationIntent = new Intent(context, com.example.admin.cyclecalendar.Notification.class);
+        notificationIntent.putExtra(com.example.admin.cyclecalendar.Notification.NOTIFICATION_ID, notificationId);
+        notificationIntent.putExtra(com.example.admin.cyclecalendar.Notification.NOTIFICATION, notification);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, notificationId, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+
+        long futureInMillis = SystemClock.elapsedRealtime() + delay;
+        alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, futureInMillis, pendingIntent);
+
+        Log.e("HELlO", "ALARM SET");
+    }
+
     public void GenerateNextPrediction(long delay) {
         Intent alarmIntent = new Intent(this, Prediction.class);
         pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0);
@@ -249,7 +278,7 @@ public class MainActivity extends ActionBarActivity{
     }
 
     //Set Notification
-    private void setAlarm() {
+    public void setAlarm() {
         if(CycleCalendarLibrary.fileExist(getApplicationContext())) {
             Date predictionDate = new Date();
             Date currentDate = new Date();
@@ -262,7 +291,6 @@ public class MainActivity extends ActionBarActivity{
                 }
             }
 
-            Calendar c = Calendar.getInstance();
             Calendar current = Calendar.getInstance();
             current.set(Calendar.HOUR_OF_DAY, 7);
             current.set(Calendar.MINUTE, 0);
@@ -270,38 +298,12 @@ public class MainActivity extends ActionBarActivity{
             current.set(Calendar.MILLISECOND, 0);
             currentDate = current.getTime();
 
+            Calendar c = Calendar.getInstance();
             c.setTime(predictionDate);
             c.add(Calendar.DATE, -3);
             predictionDate = c.getTime();
             long diffInMillies = predictionDate.getTime() - currentDate.getTime();
-            scheduleNotification(getApplicationContext(), diffInMillies, 1);
+            GenerateNextAlarm(getApplicationContext(), diffInMillies, 1);
         }
     }
-
-    // NOTIFICATION BUILDER
-    public void scheduleNotification(Context context, long delay, int notificationId) {//delay is after how much time(in millis) from current time you want to schedule the notification
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
-                .setContentTitle("Cycle Calendar")
-                .setContentText("Your period begins in about 3 days.")
-                .setAutoCancel(true)
-                .setSmallIcon(R.drawable.ic_report)
-                .setLargeIcon(((BitmapDrawable) context.getResources().getDrawable(R.drawable.ic_report)).getBitmap())
-                .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
-
-        Intent intent = new Intent(context, MainActivity.class);
-        PendingIntent activity = PendingIntent.getActivity(context, notificationId, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-        builder.setContentIntent(activity);
-
-        Notification notification = builder.build();
-
-        Intent notificationIntent = new Intent(context, com.example.admin.cyclecalendar.Notification.class);
-        notificationIntent.putExtra(com.example.admin.cyclecalendar.Notification.NOTIFICATION_ID, notificationId);
-        notificationIntent.putExtra(com.example.admin.cyclecalendar.Notification.NOTIFICATION, notification);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, notificationId, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
-
-        long futureInMillis = SystemClock.elapsedRealtime() + delay;
-        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, futureInMillis, pendingIntent);
-    }
-
 }

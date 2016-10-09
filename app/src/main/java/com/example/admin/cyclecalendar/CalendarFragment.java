@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +34,7 @@ public class CalendarFragment extends Fragment {
     TextView starttext;
     TextView fertiletext;
     TextView ovulationtext;
+    Date selected;
 
     public CalendarFragment() {
         // Required empty public constructor
@@ -67,8 +69,12 @@ public class CalendarFragment extends Fragment {
             @Override
             public void onDateSelected(Date date) {
                 Intent intent = new Intent(CalendarFragment.this.getActivity(), PopUpLayoutDetail.class);
+                selected = date;
                 intent.putExtra("CurrentDate", date.getTime());
-                startActivityForResult(intent, 2);// Activity is started with requestCode 2
+                startActivityForResult(intent, 2);
+
+                final Calendar currentCalendar = Calendar.getInstance();
+                currentCalendar.setTime(selected);
                 List<DayDecorator> decorators = new ArrayList<>();
                 decorators.add(new DaysDecorator(CalendarFragment.this));
                 calendarView.setDecorators(decorators);
@@ -96,11 +102,14 @@ public class CalendarFragment extends Fragment {
         // check if the request code is same as what is passed  here it is 2
         if(requestCode==2)
         {
-            final Calendar currentCalendar = Calendar.getInstance(Locale.getDefault());
+            final Date dateObj = new Date(data.getExtras().getLong("CurrentDate",-1));
+            final Calendar currentCalendar = Calendar.getInstance();
+            currentCalendar.setTime(dateObj);
             List<DayDecorator> decorators = new ArrayList<>();
             decorators.add(new DaysDecorator(this));
             calendarView.setDecorators(decorators);
             calendarView.refreshCalendar(currentCalendar);
+       //     Log.e("TEST", data.getExtras().getLong("CurrentDate", -1)+"");
         }
     }
 

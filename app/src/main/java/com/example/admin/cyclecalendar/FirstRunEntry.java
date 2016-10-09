@@ -38,6 +38,7 @@ public class FirstRunEntry extends Activity {
         //Initialize views
         save = (Button) findViewById(R.id.settingsave);
         date = (EditText) findViewById(R.id.firstdatelastmens);
+        date.clearFocus();
         name = (EditText) findViewById(R.id.username);
         cycledays = (EditText) findViewById(R.id.cycledays);
 
@@ -115,8 +116,18 @@ public class FirstRunEntry extends Activity {
     private boolean errorchecking() {
         boolean flag = true;
         String message ="";
-        if(cycledays.getText().toString().isEmpty()) {
+        String scycledays = cycledays.getText().toString();
+        if(scycledays.isEmpty()) {
             message = "Please enter cycle days";
+            flag = false;
+        }
+        int ncycledays = Integer.parseInt(scycledays);
+        if(ncycledays < 14) {
+            message = "Cycle days must be between 14 to 100 days.";
+            flag = false;
+        }
+        if(ncycledays > 100) {
+            message = "Cycle days must be between 14 to 100 days.";
             flag = false;
         }
         if(date.getText().toString().isEmpty()) {

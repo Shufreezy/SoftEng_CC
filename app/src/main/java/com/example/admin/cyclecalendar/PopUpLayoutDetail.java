@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -48,6 +49,7 @@ public class PopUpLayoutDetail extends Activity {
 
         // Initialize values
         final Date dateObj = new Date(getIntent().getExtras().getLong("CurrentDate", -1));
+        final Date curr = dateObj;
         dateFormat = new SimpleDateFormat("MM-dd-yyyy");
         flowDate = new ArrayList<Date>(Arrays.asList(CycleCalendarLibrary.initializeDates(getApplicationContext())));
         flowType = new ArrayList<Integer>(Ints.asList(CycleCalendarLibrary.initializeChart(getApplicationContext())));
@@ -104,8 +106,10 @@ public class PopUpLayoutDetail extends Activity {
 
                 Date[] Dates = flowDate.toArray(new Date[flowDate.size()]);
                 int[] keys = Ints.toArray(flowType);
-                CycleCalendarLibrary.saveData(Dates,keys,getApplicationContext());
+                CycleCalendarLibrary.saveData(Dates, keys, getApplicationContext());
                 Intent intent = new Intent();
+                intent.putExtra("CurrentDate",curr.getTime());
+                Log.e("TEST", curr.getTime()+"");
                 setResult(2, intent);
                 finish();//finishing activity
             }
