@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -73,6 +74,10 @@ public class FirstRunEntry extends Activity {
                     int[] keys = Ints.toArray(myKeys);
 
                     CycleCalendarLibrary.saveData(Dates, keys, getApplicationContext());
+
+                    MainActivity main = new MainActivity();
+                    main.setAlarm(getApplicationContext());
+                    Log.e("Alarm Set", "Alarm Set!");
                     Intent intent = new Intent(FirstRunEntry.this, MainActivity.class);
                     startActivityForResult(intent, 2);
                 }

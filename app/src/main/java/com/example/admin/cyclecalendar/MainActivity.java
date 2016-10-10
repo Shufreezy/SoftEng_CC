@@ -106,11 +106,9 @@ public class MainActivity extends ActionBarActivity{
         });
 
         loadInitialFragment();
-        generateNextPrediction();
-        setAlarm();
     }
 
-    private void selectItemFragment(int position){
+    public void selectItemFragment(int position){
 
         Fragment fragment = null;
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -193,6 +191,10 @@ public class MainActivity extends ActionBarActivity{
         {
             loadInitialFragment();
         }
+
+        if(requestCode == 3) {
+
+        }
     }
 
     // Load Calendar fragment
@@ -204,6 +206,8 @@ public class MainActivity extends ActionBarActivity{
         mDrawerList.setItemChecked(0, true);
         setTitle(titles[0]);
         mDrawerLayout.closeDrawer(mDrawerList);
+        generateNextPrediction();
+        Log.e("GENERATE","NEXT PREDICTION");
     }
 
 
@@ -273,17 +277,20 @@ public class MainActivity extends ActionBarActivity{
         Intent alarmIntent = new Intent(this, Prediction.class);
         pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0);
         long futureInMillis = SystemClock.elapsedRealtime() + delay;
+        if (manager != null) {
+            manager.cancel(pendingIntent);
+        }
         manager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
         manager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, futureInMillis, pendingIntent);
     }
 
     //Set Notification
-    public void setAlarm() {
-        if(CycleCalendarLibrary.fileExist(getApplicationContext())) {
+    public void setAlarm(Context context) {
+        if(CycleCalendarLibrary.fileExist(context)) {
             Date predictionDate = new Date();
             Date currentDate = new Date();
-            Date[] myDates = CycleCalendarLibrary.initializeDates(getApplicationContext());
-            int[] keys = CycleCalendarLibrary.initializeChart(getApplicationContext());
+            Date[] myDates = CycleCalendarLibrary.initializeDates(context);
+            int[] keys = CycleCalendarLibrary.initializeChart(context);
             for (int i = myDates.length - 1; i >= 0; i--) {
                 if (keys[i] == 0) {
                     predictionDate = myDates[i];
@@ -303,7 +310,7 @@ public class MainActivity extends ActionBarActivity{
             c.add(Calendar.DATE, -3);
             predictionDate = c.getTime();
             long diffInMillies = predictionDate.getTime() - currentDate.getTime();
-            GenerateNextAlarm(getApplicationContext(), diffInMillies, 1);
+            GenerateNextAlarm(context, diffInMillies, 1);
         }
     }
 }

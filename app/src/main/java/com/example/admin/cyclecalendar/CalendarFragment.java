@@ -83,7 +83,7 @@ public class CalendarFragment extends Fragment {
 
             @Override
             public void onMonthChanged(Date date) {
-                // do nothing
+
             }
         });
 
@@ -102,13 +102,18 @@ public class CalendarFragment extends Fragment {
         // check if the request code is same as what is passed  here it is 2
         if(requestCode==2)
         {
-            final Date dateObj = new Date(data.getExtras().getLong("CurrentDate",-1));
-            final Calendar currentCalendar = Calendar.getInstance();
-            currentCalendar.setTime(dateObj);
-            List<DayDecorator> decorators = new ArrayList<>();
-            decorators.add(new DaysDecorator(this));
-            calendarView.setDecorators(decorators);
-            calendarView.refreshCalendar(currentCalendar);
+            try {
+                final Date dateObj = new Date(data.getExtras().getLong("CurrentDate", -1));
+                final Calendar currentCalendar = Calendar.getInstance();
+                currentCalendar.setTime(dateObj);
+                List<DayDecorator> decorators = new ArrayList<>();
+                decorators.add(new DaysDecorator(this));
+                calendarView.setDecorators(decorators);
+                calendarView.refreshCalendar(currentCalendar);
+            }
+            catch (Exception ex) {
+
+            }
        //     Log.e("TEST", data.getExtras().getLong("CurrentDate", -1)+"");
         }
     }
@@ -137,13 +142,13 @@ public class CalendarFragment extends Fragment {
                         cal1.setTime(dayView.getDate());
                         cal2.setTime(myDate[i]);
 
-                        context.starttext.setText("Period Starts at " + dateFormat.format(myDate[i]));
                         boolean sameDays = cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
                                 cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR);
 
                         if (sameDays) {
                             dayView.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.ic_firstday));
                             dayView.setTextColor(Color.BLACK);
+                            context.starttext.setText("Period Starts at " + dateFormat.format(myDate[i]));
                         }
 
                         cal2.add(Calendar.DATE, 9);
@@ -160,7 +165,7 @@ public class CalendarFragment extends Fragment {
                                 if (j == 5) {
                                     dayView.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.ic_ovulation));
                                     dayView.setTextColor(Color.WHITE);
-                                    context.ovulationtext.setText("Ovulation Day is at " + dateFormat.format(cal2.getTime()));
+                                    context.ovulationtext.setText("Ovulation Day is on " + dateFormat.format(cal2.getTime()));
                                 } else {
                                     dayView.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.ic_fertile));
                                     dayView.setTextColor(Color.WHITE);

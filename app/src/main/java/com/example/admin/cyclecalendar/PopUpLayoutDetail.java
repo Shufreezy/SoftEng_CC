@@ -32,6 +32,8 @@ public class PopUpLayoutDetail extends Activity {
     int index;
     boolean set;
 
+    Date currentDate;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -50,6 +52,7 @@ public class PopUpLayoutDetail extends Activity {
         // Initialize values
         final Date dateObj = new Date(getIntent().getExtras().getLong("CurrentDate", -1));
         final Date curr = dateObj;
+        currentDate = curr;
         dateFormat = new SimpleDateFormat("MM-dd-yyyy");
         flowDate = new ArrayList<Date>(Arrays.asList(CycleCalendarLibrary.initializeDates(getApplicationContext())));
         flowType = new ArrayList<Integer>(Ints.asList(CycleCalendarLibrary.initializeChart(getApplicationContext())));
@@ -130,5 +133,15 @@ public class PopUpLayoutDetail extends Activity {
                 }
             }
         });
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        Intent intent = new Intent();
+        intent.putExtra("CurrentDate",currentDate.getTime());
+        Log.e("TEST", currentDate.getTime()+"");
+        setResult(2, intent);
+        finish();//finishing activity
     }
 }

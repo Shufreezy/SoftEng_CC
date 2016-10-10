@@ -3,6 +3,7 @@ package com.example.admin.cyclecalendar;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.common.primitives.Ints;
@@ -42,6 +43,10 @@ public class Prediction extends BroadcastReceiver {
         Date[] Dates = myDate.toArray(new Date[myDate.size()]);
         int[] mykeys = Ints.toArray(myKeys);
         CycleCalendarLibrary.saveData(Dates, mykeys, arg0);
+        MainActivity main = new MainActivity();
+
+        main.setAlarm(arg0);
+        Log.e("Alarm Set", "Alarm Set!");
     }
 
 }

@@ -1,6 +1,7 @@
 package com.example.admin.cyclecalendar;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -19,6 +20,8 @@ public class SettingsFragment extends Fragment {
     EditText username;
     EditText cycledays;
     Switch autocycle;
+
+    boolean error;
     public SettingsFragment() {
         // Required empty public constructor
     }
@@ -73,12 +76,32 @@ public class SettingsFragment extends Fragment {
                                       int before, int count) {
                 if(s.length() == 0) {
                     cycledays.setError("Please enter cycle days");
+                    error = true;
                 }
                 else {
-                    if (Integer.parseInt(s.toString()) < 14)
+                    if (Integer.parseInt(s.toString()) < 14) {
                         cycledays.setError("Cycle days must be between 14 to 100 days.");
-                    if (Integer.parseInt(s.toString()) > 100)
+                        error = true;
+                    }
+                    else if (Integer.parseInt(s.toString()) > 100) {
                         cycledays.setError("Cycle days must be between 14 to 100 days.");
+                        error = true;
+                    }
+                    else {
+                        if (Integer.parseInt(s.toString()) == 28) {
+                            autocycle.setChecked(false);
+                            SharedPreferences.Editor editor = getActivity().getSharedPreferences("AutoCycleSwitch", Context.MODE_PRIVATE).edit();
+                            editor.putBoolean("AutoCycleToggle", false);
+                            editor.commit();
+                            error = false;
+                        } else {
+                            autocycle.setChecked(true);
+                            SharedPreferences.Editor editor = getActivity().getSharedPreferences("AutoCycleSwitch", Context.MODE_PRIVATE).edit();
+                            editor.putBoolean("AutoCycleToggle", true);
+                            editor.commit();
+                            error = false;
+                        }
+                    }
                 }
 
             }
@@ -90,9 +113,10 @@ public class SettingsFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-
-        if(CycleCalendarLibrary.getCycle(getContext())!= -1) {
-            CycleCalendarLibrary.initializeCycle(Integer.parseInt(cycledays.getText().toString()), getContext());
+        if(!error) {
+            if (CycleCalendarLibrary.getCycle(getContext()) != -1) {
+                CycleCalendarLibrary.initializeCycle(Integer.parseInt(cycledays.getText().toString()), getContext());
+            }
         }
     }
 }
