@@ -31,9 +31,6 @@ import java.util.Locale;
 
 public class CalendarFragment extends Fragment {
     CustomCalendarView calendarView;
-    TextView starttext;
-    TextView fertiletext;
-    TextView ovulationtext;
     Date selected;
 
     public CalendarFragment() {
@@ -46,9 +43,6 @@ public class CalendarFragment extends Fragment {
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_calendar, container, false);
-        starttext = (TextView) view.findViewById(R.id.starttext);
-        fertiletext = (TextView) view.findViewById(R.id.fertiletext);
-        ovulationtext = (TextView) view.findViewById(R.id.ovulationtext);
 
         //Initialize CustomCalendarView from layout
         calendarView = (CustomCalendarView) view.findViewById(R.id.calendar_view);
@@ -148,13 +142,9 @@ public class CalendarFragment extends Fragment {
                         if (sameDays) {
                             dayView.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.ic_firstday));
                             dayView.setTextColor(Color.BLACK);
-                            context.starttext.setText("Period Starts at " + dateFormat.format(myDate[i]));
                         }
 
                         cal2.add(Calendar.DATE, 9);
-                        cal3.setTime(cal2.getTime());
-                        cal3.add(Calendar.DATE, 6);
-                        context.fertiletext.setText("Fertile Days is from " + dateFormat.format(cal2.getTime()) + " to " + dateFormat.format(cal3.getTime()));
                         for (int j = 1; j < 8; j++) {
                             cal1.setTime(dayView.getDate());
 
@@ -165,7 +155,6 @@ public class CalendarFragment extends Fragment {
                                 if (j == 5) {
                                     dayView.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.ic_ovulation));
                                     dayView.setTextColor(Color.WHITE);
-                                    context.ovulationtext.setText("Ovulation Day is on " + dateFormat.format(cal2.getTime()));
                                 } else {
                                     dayView.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.ic_fertile));
                                     dayView.setTextColor(Color.WHITE);

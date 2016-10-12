@@ -15,6 +15,8 @@ import android.widget.Toast;
 
 import com.google.common.primitives.Ints;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -76,13 +78,28 @@ public class FirstRunEntry extends Activity {
                     CycleCalendarLibrary.saveData(Dates, keys, getApplicationContext());
 
                     MainActivity main = new MainActivity();
-                    main.setAlarm(getApplicationContext());
-                    Log.e("Alarm Set", "Alarm Set!");
+
+                    Calendar current = Calendar.getInstance();
+                    Date currentdate = current.getTime();
+                    DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
+                    current.add(Calendar.DATE,-1);
+                    Date currentdateminusone = current.getTime();
+                    current.add(Calendar.DATE,-1);
+                    Date currentdateminustwo = current.getTime();
+                    if(dateFormat.format(firstDateLastMens).equals(dateFormat.format(currentdate)) ||
+                            dateFormat.format(firstDateLastMens).equals(dateFormat.format(currentdateminusone))||
+                            dateFormat.format(firstDateLastMens).equals(dateFormat.format(currentdateminustwo))){
+                    }
+                    else {
+                        main.setAlarm(getApplicationContext());
+                        Log.e("Alarm Set", "Alarm Set!");
+                    }
+
                     Intent intent = new Intent(FirstRunEntry.this, MainActivity.class);
                     startActivityForResult(intent, 2);
                 }
                 else {
-                    Toast.makeText(FirstRunEntry.this,"PLEASE SUPPLY MISSING FIELDS",Toast.LENGTH_LONG);
+                    Toast.makeText(FirstRunEntry.this, "PLEASE SUPPLY MISSING FIELDS", Toast.LENGTH_LONG);
                 }
             }
         });
@@ -122,11 +139,14 @@ public class FirstRunEntry extends Activity {
         boolean flag = true;
         String message ="";
         String scycledays = cycledays.getText().toString();
+        int ncycledays = 0;
         if(scycledays.isEmpty()) {
             message = "Please enter cycle days";
             flag = false;
         }
-        int ncycledays = Integer.parseInt(scycledays);
+        else {
+            ncycledays = Integer.parseInt(scycledays);
+        }
         if(ncycledays < 14) {
             message = "Cycle days must be between 14 to 100 days.";
             flag = false;
