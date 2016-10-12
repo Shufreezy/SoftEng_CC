@@ -62,11 +62,13 @@ public class CalendarFragment extends Fragment {
         calendarView.setCalendarListener(new CalendarListener() {
             @Override
             public void onDateSelected(Date date) {
+                // show pop-up dayview of the selected date
                 Intent intent = new Intent(CalendarFragment.this.getActivity(), PopUpLayoutDetail.class);
                 selected = date;
                 intent.putExtra("CurrentDate", date.getTime());
                 startActivityForResult(intent, 2);
 
+                // redecorate day after clicking
                 final Calendar currentCalendar = Calendar.getInstance();
                 currentCalendar.setTime(selected);
                 List<DayDecorator> decorators = new ArrayList<>();
@@ -81,6 +83,7 @@ public class CalendarFragment extends Fragment {
             }
         });
 
+        // decorates days with signs as described in the legend
         List<DayDecorator> decorators = new ArrayList<>();
         decorators.add(new DaysDecorator(this));
         calendarView.setDecorators(decorators);
@@ -105,10 +108,7 @@ public class CalendarFragment extends Fragment {
                 calendarView.setDecorators(decorators);
                 calendarView.refreshCalendar(currentCalendar);
             }
-            catch (Exception ex) {
-
-            }
-       //     Log.e("TEST", data.getExtras().getLong("CurrentDate", -1)+"");
+            catch (Exception ex) {}
         }
     }
 

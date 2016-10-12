@@ -227,21 +227,19 @@ public class MainActivity extends ActionBarActivity{
                 }
             }
             Calendar current = Calendar.getInstance();
-            current.set(Calendar.HOUR_OF_DAY,8);
+            current.set(Calendar.HOUR_OF_DAY,7);
             current.set(Calendar.MINUTE,0);
             current.set(Calendar.SECOND, 0);
             current.set(Calendar.MILLISECOND, 0);
             Calendar prediction = Calendar.getInstance();
             prediction.setTime(predictionDate);
             prediction.add(Calendar.DATE, 13);
-            prediction.set(Calendar.HOUR_OF_DAY, 0);
+            prediction.set(Calendar.HOUR_OF_DAY, 7);
             prediction.set(Calendar.MINUTE, 0);
             prediction.set(Calendar.SECOND, 0);
             prediction.set(Calendar.MILLISECOND, 0);
 
-            predictionDate = prediction.getTime();
-            currentDate = current.getTime();
-            long diffInMillies = predictionDate.getTime() - currentDate.getTime();
+            long diffInMillies = prediction.getTimeInMillis() - current.getTimeInMillis();
             GenerateNextPrediction(diffInMillies);
         }
     }
@@ -264,24 +262,37 @@ public class MainActivity extends ActionBarActivity{
         Intent notificationIntent = new Intent(context, com.example.admin.cyclecalendar.Notification.class);
         notificationIntent.putExtra(com.example.admin.cyclecalendar.Notification.NOTIFICATION_ID, notificationId);
         notificationIntent.putExtra(com.example.admin.cyclecalendar.Notification.NOTIFICATION, notification);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, notificationId, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        long futureInMillis = SystemClock.elapsedRealtime() + delay;
+
+        Calendar current = Calendar.getInstance();
+        current.set(Calendar.HOUR_OF_DAY, 7);
+        current.set(Calendar.MINUTE, 0);
+        current.set(Calendar.SECOND, 0);
+        current.set(Calendar.MILLISECOND, 0);
+
+        long futureInMillis = current.getTimeInMillis() + delay;
+
         alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, futureInMillis, pendingIntent);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, futureInMillis, pendingIntent);
 
         Log.e("HELlO", "ALARM SET");
     }
 
     public void GenerateNextPrediction(long delay) {
         Intent alarmIntent = new Intent(this, Prediction.class);
-        pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0);
-        long futureInMillis = SystemClock.elapsedRealtime() + delay;
-        if (manager != null) {
-            manager.cancel(pendingIntent);
-        }
+        pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Calendar current = Calendar.getInstance();
+        current.set(Calendar.HOUR_OF_DAY, 7);
+        current.set(Calendar.MINUTE, 0);
+        current.set(Calendar.SECOND, 0);
+        current.set(Calendar.MILLISECOND, 0);
+
+        long futureInMillis = current.getTimeInMillis() + delay;
+
         manager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
-        manager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, futureInMillis, pendingIntent);
+        manager.set(AlarmManager.RTC_WAKEUP, futureInMillis, pendingIntent);
     }
 
     //Set Notification
@@ -308,8 +319,12 @@ public class MainActivity extends ActionBarActivity{
             Calendar c = Calendar.getInstance();
             c.setTime(predictionDate);
             c.add(Calendar.DATE, -3);
+            c.set(Calendar.HOUR_OF_DAY,7);
+            c.set(Calendar.MINUTE, 0);
+            c.set(Calendar.SECOND, 0);
+            c.set(Calendar.MILLISECOND, 0);
             predictionDate = c.getTime();
-            long diffInMillies = predictionDate.getTime() - currentDate.getTime();
+            long diffInMillies = c.getTimeInMillis() - current.getTimeInMillis();
             GenerateNextAlarm(context, diffInMillies, 1);
         }
     }
